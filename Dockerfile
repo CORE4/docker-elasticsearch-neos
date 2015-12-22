@@ -1,3 +1,3 @@
-FROM elasticsearch:1.4
+FROM elasticsearch:1.7
 
-ADD config/elasticsearch_1.4.yml /etc/elasticsearch/elasticsearch.yml
+ADD config/elasticsearch_1.7.yml /etc/elasticsearch/elasticsearch.yml
