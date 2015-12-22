@@ -1,8 +1,8 @@
 FROM ubuntu:trusty
 
-ARG ACCEPT_ORACLE_LICENSE=false
 # This file only supports the version to which a configuration exsist (as of this writing 1.4 and 1.7)
 ENV VERSION 1.7
+ENV ACCEPT_ORACLE_LICENSE false
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update
@@ -20,11 +20,10 @@ RUN echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" 
 RUN apt-get update && apt-get install elasticsearch -y
 
 ADD config/elasticsearch_${VERSION}.yml /etc/elasticsearch/elasticsearch.yml
+ADD install.sh /opt/install.sh
 
-# Accept license
-RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select ${ACCEPT_ORACLE_LICENSE} | /usr/bin/debconf-set-selections
-
-RUN apt-get install oracle-java8-installer oracle-java8-set-default -y
+# optional: install oracle java if license was accepted
+RUN /opt/install.sh
 
 EXPOSE 9200
 CMD ["/usr/share/elasticsearch/bin/elasticsearch"]
